@@ -51,4 +51,5 @@ for d = 1:size(sessions,1)
     
     % save data to main file
     saveCellMetrics(cell_metrics, out_filename);
+    close all;
 end
