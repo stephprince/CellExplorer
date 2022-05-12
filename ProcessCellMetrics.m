@@ -108,8 +108,8 @@ addParameter(p,'debugMode',false,@islogical);
 addParameter(p,'transferFilesFromClusterpath',true,@islogical);
 addParameter(p,'showFigures',true,@islogical);
 addParameter(p,'showWaveforms',true,@islogical);
+addParameter(p,'polarityThreshold',0,@isnumeric);
 
- 
 parse(p,varargin{:})
 
 sessionID = p.Results.sessionID;
@@ -454,7 +454,7 @@ if any(contains(parameters.metrics,{'waveform_metrics','all'})) && ~any(contains
         end
         
         dispLog('Calculating waveform metrics',basename);
-        waveform_metrics = calc_waveform_metrics(spikes{spkExclu},sr,'showFigures',parameters.showFigures);
+        waveform_metrics = calc_waveform_metrics(spikes{spkExclu},sr,'showFigures',parameters.showFigures, 'polarityThreshold', parameters.polarityThreshold);
         cell_metrics.troughToPeak = waveform_metrics.troughtoPeak;
         cell_metrics.troughtoPeakDerivative = waveform_metrics.derivative_TroughtoPeak;
         cell_metrics.ab_ratio = waveform_metrics.ab_ratio;

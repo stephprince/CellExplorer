@@ -13,6 +13,7 @@ function waveform_metrics = calc_waveform_metrics(waveforms,sr_in,varargin)
 % petersen.peter@gmail.com
 p = inputParser;
 addParameter(p,'showFigures',true,@islogical);
+addParameter(p,'polarityThreshold',0,@isnumeric);
 parse(p,varargin{:})
 
 
@@ -64,7 +65,7 @@ for m = 1:length(filtWaveform)
     if ~any(isnan(filtWaveform{m}))
     wave = interp1(waveforms.timeWaveform{1},zscore(filtWaveform{m}),timeWaveform(1):mean(diff(timeWaveform)):timeWaveform(end),'spline');
     waveform_metrics.polarity(m) = mean(wave(trough_interval(1):trough_interval(2))) - mean(wave([1:trough_interval(1),trough_interval(2):end]));
-    if waveform_metrics.polarity(m) > 0
+    if (waveform_metrics.polarity(m) > p.Results.polarityThreshold)
         wave = -wave;
     end
     wave_diff{m} = diff(wave);
